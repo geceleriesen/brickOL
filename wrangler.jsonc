@@ -1,0 +1,9 @@
+{
+  "name": "brickol",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./public" },
+  "routes": [
+    { "pattern": "geceleriesen.com", "custom_domain": true },
+    { "pattern": "www.geceleriesen.com", "custom_domain": true }
+  ]
+}
