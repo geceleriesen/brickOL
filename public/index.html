@@ -29,21 +29,21 @@ button.on{background:var(--acc);color:#1c2340;box-shadow:inset 0 -3px 0 rgba(0,0
 #tools i{font-style:normal;font-size:19px;line-height:1.1}
 #tools kbd{font:700 10px "Fredoka",system-ui,sans-serif;background:var(--card);color:var(--mut);border-radius:5px;padding:0 5px;margin-top:3px;box-shadow:0 1px 0 var(--line)}
 #tools button.on kbd{color:#1c2340}
-#col{position:fixed;right:14px;top:calc(max(12px,env(safe-area-inset-top)) + 84px);width:184px;padding:10px}
+#col{position:fixed;right:14px;top:calc(max(12px,env(safe-area-inset-top)) + 84px);width:150px;padding:8px}
 #col header{display:flex;justify-content:space-between;align-items:center;font-weight:700}
 #col header button{padding:2px 9px}
 #col.min .body{display:none}
-.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
-.sw button{aspect-ratio:1;padding:0;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1.5px var(--line),inset 0 -3px 0 rgba(0,0,0,.18)}
+.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.sw button{aspect-ratio:1;padding:0;border-radius:50%;border:2px solid var(--card);box-shadow:0 0 0 1.5px var(--line),inset 0 -3px 0 rgba(0,0,0,.18)}
 .sw button.on{box-shadow:0 0 0 3px var(--ink)}
-.pick{display:flex;gap:8px;align-items:center;font-size:13px}
-.pick input{width:44px;height:36px;border:0;padding:0;background:none;border-radius:10px;cursor:pointer}
+.pick{display:flex;gap:8px;align-items:center;font-size:12px}
+.pick input{width:36px;height:30px;border:0;padding:0;background:none;border-radius:10px;cursor:pointer}
 #hex{width:100%;margin-top:8px;padding:6px 8px;border-radius:10px;border:2px solid var(--line);background:var(--btn);color:inherit;font:inherit;text-transform:uppercase}
-#dock{position:fixed;left:50%;transform:translateX(-50%);bottom:max(12px,env(safe-area-inset-bottom));width:min(1000px,calc(100% - 24px));padding:8px 10px 6px}
+#dock{position:fixed;left:14px;bottom:max(12px,env(safe-area-inset-bottom));width:calc(100% - 190px);padding:8px 10px 6px}
 #tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 #tabs button{flex:none;font-weight:700}
 #tabs .fold{margin-left:auto}
-#tray{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 6px;align-items:stretch}
+#tray{display:flex;flex-wrap:wrap;gap:8px;padding:10px 2px 6px;align-items:stretch}
 #dock.min #tray{display:none}
 .it{flex:none;width:84px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 3px;font-size:12px;border:3px solid transparent;border-radius:14px}
 .it img{width:60px;height:60px;pointer-events:none}
@@ -52,7 +52,7 @@ button.on{background:var(--acc);color:#1c2340;box-shadow:inset 0 -3px 0 rgba(0,0
 .cs div{display:flex;gap:4px;align-items:center}
 .cs input{width:50px;padding:5px;border-radius:9px;border:2px solid var(--line);background:var(--btn);color:inherit;font:inherit}
 #hint{position:fixed;left:50%;top:38%;transform:translateX(-50%);padding:12px 22px;font-size:18px;pointer-events:none;text-align:center}
-@media(max-width:720px){#hud{padding:6px 10px}#hud b{font-size:0}#hud b::before{margin:0}#cnt{display:none}#tools{gap:2px;padding:4px}#tools button{min-width:38px;padding:4px 3px;font-size:9.5px}#tools kbd{display:none}#col{top:auto;bottom:174px;width:auto;right:10px}#hint{font-size:15px}}
+@media(max-width:720px){#hud{padding:6px 10px}#hud b{font-size:0}#hud b::before{margin:0}#cnt{display:none}#tools{gap:2px;padding:4px}#tools button{min-width:38px;padding:4px 3px;font-size:9.5px}#tools kbd{display:none}#dock{left:12px;width:calc(100% - 24px)}#tray{max-height:30vh;overflow-y:auto}#col{top:auto;bottom:174px;width:auto;right:10px}#hint{font-size:15px}}
 @media(prefers-reduced-motion:reduce){button{transition:none}}
 </style>
 </head>
@@ -62,7 +62,7 @@ button.on{background:var(--acc);color:#1c2340;box-shadow:inset 0 -3px 0 rgba(0,0
 <div id="tools" class="card"></div>
 <div id="col" class="card"><header>Renk <button id="cf" aria-label="Renk panelini aç/kapat">−</button></header>
 <div class="body"><div class="sw" id="sw"></div>
-<label class="pick"><input type="color" id="cp" value="#e4002b">Kendi rengin (RGB)</label>
+<label class="pick"><input type="color" id="cp" value="#e4002b">RGB renk</label>
 <input id="hex" maxlength="7" value="#E4002B" aria-label="Renk kodu"><div class="pick" style="margin-top:12px">Zemin rengi</div><div class="sw" id="bsw"></div></div></div>
 <div id="hint" class="card">Bir parça seç, alana tıkla!</div>
 <div id="dock" class="card"><div id="tabs"></div><div id="tray"></div></div>
@@ -73,13 +73,13 @@ button.on{background:var(--acc);color:#1c2340;box-shadow:inset 0 -3px 0 rgba(0,0
 const U=.4,N=32,H2=16,$=id=>document.getElementById(id);
 const COLORS=['#e4002b','#ff7a00','#ffd400','#7ac943','#00a651','#00b5b5','#0057b8','#6a3fb5','#f06eaa','#ffffff','#9aa0a8','#33363d','#7b4a2a','#e8c9a0','#a4d4ff','#c8f7a0'];
 const F={w:1,d:1,h:8};
-const FIGV={casual:{t:null,l:'#1f6fd1',hat:'hair',hc:'#6b4a2a'},police:{t:'#1b2a5c',l:'#1b2a5c',hat:'cap',hc:'#1b2a5c'},fire:{t:'#d92f2f',l:'#2b2f36',hat:'helmet',hc:'#f2c80f'},worker:{t:'#f28c1b',l:'#1f6fd1',hat:'helmet',hc:'#f2c80f'},suit:{t:'#2b2f36',l:'#2b2f36',hat:'hair',hc:'#4a2f1a',tie:1},doctor:{t:'#f4f4f0',l:'#2fb5b5',hat:'hair',hc:'#3a2a1a'},chef:{t:'#f4f4f0',l:'#2b2f36',hat:'tall',hc:'#fff'},astro:{t:'#f4f4f0',l:'#f4f4f0',hat:'dome'},king:{t:'#7a3fb5',l:'#2b2f36',hat:'crown',hc:'#e3b505'},pirate:{t:'#c0392b',l:'#2b2f36',hat:'cap',hc:'#1a1a1a'}};
+const FIGV={casual:{t:null,l:'#1f6fd1',hat:'hair',hc:'#6b4a2a'},police:{t:'#1b2a5c',l:'#1b2a5c',hat:'cap',hc:'#1b2a5c'},fire:{t:'#d92f2f',l:'#2b2f36',hat:'helmet',hc:'#f2c80f'},worker:{t:'#f28c1b',l:'#1f6fd1',hat:'helmet',hc:'#f2c80f'},suit:{t:'#2b2f36',l:'#2b2f36',hat:'hair',hc:'#4a2f1a',tie:1},doctor:{t:'#f4f4f0',l:'#2fb5b5',hat:'hair',hc:'#3a2a1a'},chef:{t:'#f4f4f0',l:'#2b2f36',hat:'tall',hc:'#fff'},astro:{t:'#f4f4f0',l:'#f4f4f0',hat:'dome'},king:{t:'#7a3fb5',l:'#2b2f36',hat:'crown',hc:'#e3b505'},pirate:{t:'#c0392b',l:'#2b2f36',hat:'cap',hc:'#1a1a1a'},wizard:{t:'#3b3fa5',l:'#3b3fa5',hat:'cone',hc:'#3b3fa5'},robot:{t:'#9aa0a8',l:'#6a7391',hat:'ant',hc:'#e4002b',sk:'#cfd4da'}};
 FIGV.figure=FIGV.casual;
-const SPEC={tree:{w:3,d:3,h:12},oak:{w:3,d:3,h:12},bush:{w:2,d:2,h:3},grass:{w:1,d:1,h:2},flower:{w:1,d:1,h:3},window:{w:2,d:1,h:6},winf:{w:2,d:1,h:6},door:{w:2,d:1,h:9},fence:{w:4,d:1,h:3},wheel:{w:1,d:2,h:4},bigwheel:{w:1,d:3,h:6},car:{w:2,d:4,h:3}};
+const SPEC={tree:{w:3,d:3,h:12},oak:{w:3,d:3,h:12},bush:{w:2,d:2,h:3},grass:{w:1,d:1,h:2},flower:{w:1,d:1,h:3},window:{w:2,d:1,h:6},winf:{w:2,d:1,h:6},door:{w:2,d:1,h:9},fence:{w:4,d:1,h:3},wheel:{w:1,d:2,h:4},bigwheel:{w:1,d:3,h:6},car:{w:2,d:4,h:3},arch:{w:4,d:1,h:9},stairs:{w:2,d:3,h:3},lamp:{w:1,d:1,h:10},rock:{w:2,d:2,h:3},mush:{w:1,d:1,h:3}};
 Object.keys(FIGV).forEach(k=>SPEC[k]=F);
-const ITEMS={build:[['window','Pencere'],['winf','Çerçevesiz'],['door','Kapı'],['fence','Çit']],nature:[['tree','Çam'],['oak','Meşe'],['bush','Çalı'],['grass','Ot'],['flower','Çiçek']],car:[['wheel','Tekerlek'],['bigwheel','Büyük teker'],['car','Araba tabanı']],fig:[['casual','Günlük'],['police','Polis'],['fire','İtfaiyeci'],['worker','İşçi'],['suit','Takımlı'],['doctor','Doktor'],['chef','Aşçı'],['astro','Astronot'],['king','Kral'],['pirate','Korsan']]};
+const ITEMS={build:[['window','Pencere'],['winf','Çerçevesiz'],['door','Kapı'],['fence','Çit'],['arch','Kemer'],['stairs','Merdiven'],['lamp','Lamba']],nature:[['tree','Çam'],['oak','Meşe'],['bush','Çalı'],['grass','Ot'],['flower','Çiçek'],['rock','Kaya'],['mush','Mantar']],car:[['wheel','Tekerlek'],['bigwheel','Büyük teker'],['car','Araba tabanı']],fig:[['casual','Günlük'],['police','Polis'],['fire','İtfaiyeci'],['worker','İşçi'],['suit','Takımlı'],['doctor','Doktor'],['chef','Aşçı'],['astro','Astronot'],['king','Kral'],['pirate','Korsan'],['wizard','Büyücü'],['robot','Robot']]};
 const CATS=[['brick','Tuğla'],['plate','İnce plaka'],['slope','Çatı'],['round','Yuvarlak'],['build','Yapı'],['nature','Doğa'],['car','Tekerlek'],['fig','Figürler']];
-const SIZES=[[1,1],[1,2],[1,3],[1,4],[2,2],[2,3],[2,4],[2,6],[3,3],[4,4],[4,8]];
+const SIZES=[[1,1],[1,2],[1,3],[1,4],[1,6],[1,8],[2,2],[2,3],[2,4],[2,6],[2,8],[3,3],[4,4],[4,6],[4,8],[6,6]];
 let sm=false,chosen=null,color='#e4002b',rot=0,del=false,bricks=[],hist=[],cat='brick',sel={k:'brick',w:2,d:4,h:3};
 
 /* renderer */
@@ -155,13 +155,28 @@ function build(p,c,ov){
   }else if(k==='fence'){
     for(let i=0;i<4;i++)box(.2,H,.2,mat(c),i-1.5,H/2,0);
     box(3.9,.14,.1,mat(c),0,H*.35,0);box(3.9,.14,.1,mat(c),0,H*.75,0);
+  }else if(k==='arch'){
+    const w=p.w,a=w/2-.45,hh=H-a-.45,s=new THREE.Shape(),o=new THREE.Path(),L=p.d-.1;
+    s.moveTo(-w/2,0);s.lineTo(w/2,0);s.lineTo(w/2,H);s.lineTo(-w/2,H);s.closePath();
+    o.moveTo(-a,0);o.lineTo(a,0);o.lineTo(a,hh);o.absarc(0,hh,a,0,Math.PI,false);o.lineTo(-a,0);s.holes.push(o);
+    const ag=new THREE.ExtrudeGeometry(s,{depth:L,bevelEnabled:false});ag.translate(0,0,-L/2);add(ag,mat(c),0,0,0);
+  }else if(k==='stairs'){
+    for(let i=0;i<3;i++){const h=(i+1)*H/3;box(p.w-.04,h,.98,mat(c),0,h/2,i-1);for(let x=0;x<p.w;x++)stud(mat(c),x-(p.w-1)/2,h+.09,i-1)}
+  }else if(k==='lamp'){
+    cyl(.07,.1,3.6,mat('#2b2f36'),0,1.8,0,10);cyl(.18,.18,.12,mat('#2b2f36'),0,.06,0,12);
+    add(new THREE.SphereGeometry(.28,14,10),new THREE.MeshStandardMaterial({color:lin('#fff3b0'),emissive:lin('#ffd24d'),emissiveIntensity:.9}),0,3.75,0);
+  }else if(k==='rock'){
+    [[.85,0,.4,0,'#8a8f98',.55],[.55,.7,.28,.3,'#9aa0a8',.6],[.45,-.6,.22,-.4,'#7a7f88',.6]].forEach(([r,x,y,z,col,sy])=>{const o=add(new THREE.DodecahedronGeometry(r,0),mat(col),x,y,z);o.scale.y=sy});
+  }else if(k==='mush'){
+    cyl(.18,.22,.6,mat('#f4f4f0'),0,.3,0,12);add(new THREE.SphereGeometry(.5,16,10,0,Math.PI*2,0,Math.PI/2),mat(c),0,.6,0);
+    for(let i=0;i<4;i++){const a=i*Math.PI/2+.4;ball(.07,mat('#ffffff'),Math.cos(a)*.28,1.0,Math.sin(a)*.28)}
   }else if(k==='wheel'){whl(.8,.7,0,.8,0);
   }else if(k==='bigwheel'){whl(1.2,.8,0,1.2,0);
   }else if(k==='car'){
     box(1.5,.5,3.6,mat(c),0,.55,0);box(1.35,.4,1.5,mat(c),0,.98,-.2);box(1.3,.3,.08,glass,0,1,.58);
     [[-.85,1.3],[.85,1.3],[-.85,-1.3],[.85,-1.3]].forEach(([x,z])=>{const w=cyl(.45,.45,.4,mat('#26292e'),x,.45,z,24);w.rotation.z=Math.PI/2});
   }else if(v){
-    const sk=mat('#f2c80f'),tm=mat(v.t||c),lm=mat(v.l),hm=mat(v.hc||'#fff');
+    const sk=mat(v.sk||'#f2c80f'),tm=mat(v.t||c),lm=mat(v.l),hm=mat(v.hc||'#fff');
     box(.36,1.2,.5,lm,-.2,.6,0);box(.36,1.2,.5,lm,.2,.6,0);box(.88,1.2,.55,tm,0,1.8,0);
     box(.22,1,.3,tm,-.55,1.8,0);box(.22,1,.3,tm,.55,1.8,0);
     cyl(.32,.32,.55,sk,0,2.67,0,16);cyl(.14,.14,.12,sk,0,3.0,0,12);
@@ -171,6 +186,8 @@ function build(p,c,ov){
     if(v.hat==='tall')cyl(.34,.4,.6,hm,0,3.2,0,16);
     if(v.hat==='crown')cyl(.3,.4,.3,hm,0,3.08,0,6);
     if(v.hat==='dome')ball(.48,glass,0,2.72,0);
+    if(v.hat==='cone')add(new THREE.ConeGeometry(.4,.9,16),hm,0,3.3,0);
+    if(v.hat==='ant'){cyl(.03,.03,.5,hm,0,3.25,0,8);ball(.1,hm,0,3.55,0)}
     if(v.tie){box(.14,.8,.05,mat('#d92f2f'),0,1.85,.29);box(.34,.3,.05,mat('#f4f4f0'),0,2.25,.29)}
     if(k==='police')box(.16,.16,.05,mat('#f2c80f'),.2,2.1,.29);
     if(k==='fire'||k==='worker')box(.9,.12,.58,mat('#e8e8e0'),0,1.45,0);
