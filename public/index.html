@@ -105,7 +105,7 @@ const world=new THREE.Group();scene.add(world);
 /* pieces */
 const mats={};
 const mat=c=>mats[c]||(mats[c]=new THREE.MeshPhysicalMaterial({color:lin(c),roughness:.32,clearcoat:.5,clearcoatRoughness:.35}));
-const glass=new THREE.MeshStandardMaterial({color:lin('#9fd8ff'),transparent:true,opacity:.42,roughness:.08});
+const glass=new THREE.MeshStandardMaterial({color:lin('#b3e2ff'),transparent:true,opacity:.5,roughness:.08});
 const edgeM=new THREE.LineBasicMaterial({color:0,transparent:true,opacity:.2});
 function build(p,c,ov){
   const g=new THREE.Group(),H=p.h*U,k=p.k,v=FIGV[k];
@@ -147,11 +147,11 @@ function build(p,c,ov){
     box(w-.04,t,d,f,0,t/2,0);box(w-.04,t,d,f,0,H-t/2,0);box(t,H,d,f,-(w/2-t/2),H/2,0);box(t,H,d,f,w/2-t/2,H/2,0);
     box(.12,H-2*t,d*.6,f,0,H/2,0);box(w-2*t,.12,d*.6,f,0,H/2,0);box(w-2*t,H-2*t,.1,glass,0,H/2,0);
   }else if(k==='winf'){
-    box(p.w-.06,H-.06,.14,glass,0,H/2,0);box(.07,H-.06,.16,mat('#f4f4f0'),0,H/2,0);box(p.w-.06,.07,.16,mat('#f4f4f0'),0,H/2,0);
+    const fm=mat(c),t=.12,w=p.w-.04;box(w-2*t,H-2*t,.1,glass,0,H/2,0);box(w,t,.18,fm,0,t/2,0);box(w,t,.18,fm,0,H-t/2,0);box(t,H-2*t,.18,fm,-(w/2-t/2),H/2,0);box(t,H-2*t,.18,fm,w/2-t/2,H/2,0);
   }else if(k==='door'){
-    const f=mat('#f4f4f0'),w=p.w,d=p.d-.1,t=.3;
+    const f=mat(c),w=p.w,d=p.d-.1,t=.3;
     box(t,H,d,f,-(w/2-t/2),H/2,0);box(t,H,d,f,w/2-t/2,H/2,0);box(w-.04,t,d,f,0,H-t/2,0);
-    box(w-2*t,H-t,d*.5,mat(c),0,(H-t)/2,0);add(new THREE.SphereGeometry(.12,10,10),mat('#e3b505'),w/2-t-.25,H*.45,d*.3);
+    box(w-2*t,H-t,d*.5,mat('#8b5a2b'),0,(H-t)/2,0);add(new THREE.SphereGeometry(.12,10,10),mat('#e3b505'),w/2-t-.25,H*.45,d*.3);
   }else if(k==='fence'){
     for(let i=0;i<4;i++)box(.2,H,.2,mat(c),i-1.5,H/2,0);
     box(3.9,.14,.1,mat(c),0,H*.35,0);box(3.9,.14,.1,mat(c),0,H*.75,0);
